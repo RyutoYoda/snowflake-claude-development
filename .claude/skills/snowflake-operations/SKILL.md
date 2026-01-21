@@ -18,6 +18,118 @@
 - Snowflake connection configured (`snow connection list`)
 - Appropriate database permissions
 
+## Initial Setup
+
+### 1. Install Snowflake CLI
+
+**Using pip:**
+```bash
+pip install snowflake-cli-labs
+```
+
+**Using Homebrew (macOS):**
+```bash
+brew tap snowflake-labs/snowflake-cli
+brew install snowflake-cli
+```
+
+**Verify installation:**
+```bash
+snow --version
+```
+
+### 2. Configure Connection
+
+Snow CLI stores connection configurations in `~/.snowflake/config.toml`.
+
+**Option A: Interactive Setup**
+
+Use the interactive command to add a connection:
+```bash
+snow connection add
+```
+
+This will prompt you for:
+- Connection name
+- Account identifier
+- Username
+- Authentication method
+- Role
+- Warehouse
+- Database
+- Schema
+
+**Option B: Manual Configuration**
+
+Create or edit `~/.snowflake/config.toml`:
+
+```bash
+mkdir -p ~/.snowflake
+nano ~/.snowflake/config.toml
+```
+
+Add your connection configuration:
+
+```toml
+[connections.snowflake-claude-development]
+account = "YOUR_ACCOUNT_IDENTIFIER"
+user = "YOUR_USERNAME"
+authenticator = "externalbrowser"
+role = "YOUR_ROLE"
+warehouse = "YOUR_WAREHOUSE"
+database = "YOUR_DATABASE"
+schema = "YOUR_SCHEMA"
+```
+
+**Example Configuration:**
+```toml
+[connections.my_snowflake_connection]
+account = "xy12345.us-east-1"
+user = "john_doe"
+authenticator = "externalbrowser"
+role = "DEVELOPER"
+warehouse = "COMPUTE_WH"
+database = "MY_DATABASE"
+schema = "PUBLIC"
+```
+
+**Configuration Options:**
+
+- `account`: Your Snowflake account identifier (find in Snowflake UI: Admin > Accounts)
+- `user`: Your Snowflake username
+- `authenticator`:
+  - `"externalbrowser"` for SSO/browser-based auth (recommended)
+  - `"snowflake"` for username/password auth
+- `password`: Your password (only if using `authenticator = "snowflake"`, not recommended)
+- `role`: Default role to use
+- `warehouse`: Default warehouse to use
+- `database`: Default database to use
+- `schema`: Default schema to use
+
+### 3. Test Connection
+
+```bash
+# List all configured connections
+snow connection list
+
+# Test a specific connection
+snow connection test --connection snowflake-claude-development
+```
+
+### 4. Set Default Connection (Optional)
+
+To avoid specifying `--connection` every time, you can set a default:
+
+```toml
+[default]
+connection_name = "snowflake-claude-development"
+```
+
+Or use environment variable:
+```bash
+export SNOWFLAKE_DEFAULT_CONNECTION_NAME="snowflake-claude-development"
+```
+
 ## Snow CLI Commands
 
 ### Check Connection
