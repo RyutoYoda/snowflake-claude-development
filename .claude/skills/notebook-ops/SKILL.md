@@ -1,23 +1,23 @@
-# Notebookオペレーションスキル
+# Notebook Operations Skill
 
 **Name:** notebook-ops
 **Version:** 1.0.0
-**Description:** SnowflakeデータAnalysisと探索のためのJupyterノートブックを扱います。ノートブック環境のセットアップ、Snowflakeへの接続、クエリの実行、データ分析、可視化の作成。Jupyterノートブックの使用、アドホック分析、またはSnowflakeデータのインタラクティブな探索に使用します。
+**Description:** Work with Jupyter notebooks for Snowflake data analysis and exploration. Set up notebook environments, connect to Snowflake, execute queries, perform data analysis, and create visualizations. Use for working with Jupyter notebooks, ad-hoc analysis, or interactive exploration of Snowflake data.
 
-## いつ使うか
+## When to Use
 
-- ユーザーがノートブックでSnowflakeデータを分析したい
-- データ可視化を作成する必要がある
-- インタラクティブにデータを探索したい
-- クエリや変換をプロトタイピングしている
-- JupyterまたはノートブックのセットアップAbout質問がある
+- User wants to analyze Snowflake data in a notebook
+- Need to create data visualizations
+- Want to explore data interactively
+- Prototyping queries and transformations
+- Questions about Jupyter or notebook setup
 
-## セットアップ
+## Setup
 
-### 必要なパッケージのインストール
+### Install Required Packages
 
 ```python
-# ノートブックまたはrequirements.txtで
+# In notebook or requirements.txt
 snowflake-snowpark-python
 pandas
 matplotlib
@@ -25,13 +25,13 @@ seaborn
 jupyter
 ```
 
-### ノートブックでのSnowflake接続
+### Snowflake Connection in Notebook
 
 ```python
 from snowflake.snowpark import Session
 import pandas as pd
 
-# 接続パラメータ
+# Connection parameters
 connection_parameters = {
     "account": "your_account",
     "user": "your_user",
@@ -42,124 +42,124 @@ connection_parameters = {
     "schema": "your_schema"
 }
 
-# セッションを作成
+# Create session
 session = Session.builder.configs(connection_parameters).create()
 ```
 
-### 代替方法：SnowSQL設定を使用
+### Alternative: Use SnowSQL Config
 
 ```python
 from snowflake.snowpark import Session
 import configparser
 import os
 
-# ~/.snowsql/config から読み込み
+# Read from ~/.snowsql/config
 config = configparser.ConfigParser()
 config.read(os.path.expanduser('~/.snowsql/config'))
 
 connection_parameters = {
     "account": config['connections']['accountname'],
     "user": config['connections']['username'],
-    # ... 他のパラメータ
+    # ... other parameters
 }
 
 session = Session.builder.configs(connection_parameters).create()
 ```
 
-## よくある操作
+## Common Operations
 
-### 1. データのクエリ
+### 1. Query Data
 
 ```python
-# Snowparkを使用
+# Using Snowpark
 df = session.table("SCHEMA.TABLE_NAME").to_pandas()
 
-# またはSQLを直接使用
+# Or use SQL directly
 df = session.sql("SELECT * FROM SCHEMA.TABLE_NAME LIMIT 100").to_pandas()
 
-# 表示
+# Display
 df.head()
 ```
 
-### 2. データ探索
+### 2. Data Exploration
 
 ```python
-# 形状と情報
-print(f"行数: {len(df)}, カラム数: {len(df.columns)}")
+# Shape and info
+print(f"Rows: {len(df)}, Columns: {len(df.columns)}")
 df.info()
 
-# 統計サマリー
+# Statistical summary
 df.describe()
 
-# カラムタイプ
+# Column types
 df.dtypes
 
-# 欠損値
+# Missing values
 df.isnull().sum()
 
-# ユニーク値
+# Unique values
 df['column_name'].nunique()
 ```
 
-### 3. データ可視化
+### 3. Data Visualization
 
 ```python
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# スタイルを設定
+# Set style
 sns.set_style("whitegrid")
 
-# 棒グラフ
+# Bar chart
 df['column'].value_counts().plot(kind='bar')
-plt.title('分布')
+plt.title('Distribution')
 plt.show()
 
-# 時系列
+# Time series
 df['date'] = pd.to_datetime(df['date'])
 df.set_index('date')['value'].plot()
-plt.title('時系列')
+plt.title('Time Series')
 plt.show()
 
-# ヒストグラム
+# Histogram
 df['numeric_column'].hist(bins=50)
-plt.title('分布')
+plt.title('Distribution')
 plt.show()
 ```
 
-### 4. データ変換
+### 4. Data Transformation
 
 ```python
-# フィルター
+# Filter
 filtered = df[df['column'] > 100]
 
-# グループ化と集計
+# Group and aggregate
 grouped = df.groupby('category')['value'].sum()
 
-# 結合
+# Join
 merged = df1.merge(df2, on='key', how='left')
 
-# ピボット
+# Pivot
 pivot = df.pivot_table(values='value', index='row', columns='col')
 
-# 計算カラムの追加
+# Add calculated column
 df['new_col'] = df['col1'] + df['col2']
 ```
 
-### 5. Snowflakeへの書き戻し
+### 5. Write Back to Snowflake
 
 ```python
-# pandas DataFrameからSnowflakeへ
+# pandas DataFrame to Snowflake
 session.create_dataframe(df).write.mode("overwrite").save_as_table("SCHEMA.TABLE_NAME")
 
-# 上書きではなく追加
+# Append instead of overwrite
 session.create_dataframe(df).write.mode("append").save_as_table("SCHEMA.TABLE_NAME")
 ```
 
-### 6. DDLの実行
+### 6. Execute DDL
 
 ```python
-# テーブルの作成
+# Create table
 session.sql("""
     CREATE OR REPLACE TABLE SCHEMA.TABLE_NAME (
         ID VARCHAR(50),
@@ -167,95 +167,95 @@ session.sql("""
     )
 """).collect()
 
-# ビューの作成
+# Create view
 session.sql("""
     CREATE OR REPLACE VIEW SCHEMA.VIEW_NAME AS
     SELECT * FROM SCHEMA.TABLE_NAME WHERE VALUE > 0
 """).collect()
 ```
 
-## データ分析パターン
+## Data Analysis Patterns
 
-### アドホッククエリ開発
+### Ad-hoc Query Development
 
 ```python
-# 小さなサンプルから始める
+# Start with small sample
 sample = session.sql("SELECT * FROM LARGE_TABLE LIMIT 1000").to_pandas()
 
-# 変換ロジックを開発
+# Develop transformation logic
 transformed = sample.copy()
-# ... 変換を適用 ...
+# ... apply transformations ...
 
-# 満足したら、フルデータセットに適用
+# Once satisfied, apply to full dataset
 full_df = session.table("LARGE_TABLE").to_pandas()
 final = apply_transformations(full_df)
 ```
 
-### CSVデータの読み込み
+### Load CSV Data
 
 ```python
-# CSVを読み込み
+# Read CSV
 csv_df = pd.read_csv('file.csv')
 
-# クリーンアップと変換
+# Cleanup and transform
 csv_df = csv_df.dropna()
 csv_df['date'] = pd.to_datetime(csv_df['date'])
 
-# Snowflakeにアップロード
+# Upload to Snowflake
 session.create_dataframe(csv_df).write.mode("overwrite").save_as_table("SCHEMA.IMPORTED_DATA")
 ```
 
-### データ品質チェック
+### Data Quality Checks
 
 ```python
-# 重複をチェック
+# Check for duplicates
 duplicates = df[df.duplicated(subset=['id'], keep=False)]
-print(f"重複: {len(duplicates)}")
+print(f"Duplicates: {len(duplicates)}")
 
-# NULL値をチェック
+# Check NULL values
 null_counts = df.isnull().sum()
-print("カラムごとのNULL値:")
+print("NULL values per column:")
 print(null_counts[null_counts > 0])
 
-# 日付範囲をチェック
-print(f"日付範囲: {df['date'].min()} から {df['date'].max()}")
+# Check date range
+print(f"Date range: {df['date'].min()} to {df['date'].max()}")
 
-# 値の範囲をチェック
-print(f"値の範囲: {df['value'].min()} から {df['value'].max()}")
+# Check value range
+print(f"Value range: {df['value'].min()} to {df['value'].max()}")
 ```
 
-## ベストプラクティス
+## Best Practices
 
-1. **小さく始める**
-   - クエリ開発時はLIMITを使用
-   - まずサンプルデータでテスト
+1. **Start Small**
+   - Use LIMIT when developing queries
+   - Test with sample data first
 
-2. **セッションを閉じる**
-   - 完了時は必ずSnowparkセッションを閉じる
+2. **Close Sessions**
+   - Always close Snowpark session when done
    ```python
    session.close()
    ```
 
-3. **型変換を使用**
-   - 分析のためにSnowpark DataFrameをpandasに変換
-   - pandasの方が分析関数が豊富
+3. **Use Type Conversion**
+   - Convert Snowpark DataFrame to pandas for analysis
+   - pandas has richer analysis functions
 
-4. **中間結果を保存**
-   - 中間テーブルをSnowflakeに書き込む
-   - 高コストなクエリの再実行を避ける
+4. **Save Intermediate Results**
+   - Write intermediate tables to Snowflake
+   - Avoid re-running expensive queries
 
-5. **分析を文書化**
-   - markdownセルでロジックを説明
-   - 複雑な変換にはコメントを追加
+5. **Document Analysis**
+   - Explain logic in markdown cells
+   - Add comments for complex transformations
 
-6. **バージョン管理**
-   - ノートブックをgitに保存
-   - 分析コードの変更を追跡
+6. **Version Control**
+   - Store notebooks in git
+   - Track changes to analysis code
 
-## 注意事項
+## Notes
 
-- ノートブックは探索と分析用であり、本番用ではありません
-- 本番ダッシュボードにはStreamlitを使用してください
-- ノートブックは特定の分析タスクに焦点を当ててください
-- 成功したノートブックコードは本番スクリプトへの変換を検討してください
-- pandasへの変換時はデータサイズに注意してください
+- Notebooks are for exploration and analysis, not production
+- Use Streamlit for production dashboards
+- Keep notebooks focused on specific analysis tasks
+- Consider converting successful notebook code to production scripts
+- Be mindful of data size when converting to pandas
