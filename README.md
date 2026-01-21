@@ -310,10 +310,6 @@ snow connection add
 
 MIT License - プロジェクトで自由に使用・変更してください。
 
-## 謝辞
-
-[everything-claude-code](https://github.com/affaan-m/everything-claude-code) - Anthropic Hackathon優勝作品 にインスパイアされました
-
 ---
 
 **Happy Snowflake AI開発！**
