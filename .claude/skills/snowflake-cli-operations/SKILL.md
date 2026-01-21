@@ -1,6 +1,6 @@
-# Snowflake Operations Skill
+# Snowflake CLI Operations Skill
 
-**Name:** snowflake-operations
+**Name:** snowflake-cli-operations
 **Version:** 2.0.0
 **Description:** Execute Snowflake operations using snow CLI. Perform database queries, create tables/views, manage data, and test connections. Use when interacting with Snowflake database directly, running SQL, or managing database objects.
 
