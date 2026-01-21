@@ -28,7 +28,7 @@ definition_version: 1
 streamlit:
   name: app_name
   stage: streamlit
-  query_warehouse: BOT_XS_WH
+  query_warehouse: COMPUTE_WH
   main_file: streamlit_app.py
   title: "App Title"
 ```
