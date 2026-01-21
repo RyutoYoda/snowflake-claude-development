@@ -310,6 +310,3 @@ snow connection add
 
 MIT License - プロジェクトで自由に使用・変更してください。
 
----
-
-**Happy Snowflake AI開発！**
