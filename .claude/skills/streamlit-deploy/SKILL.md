@@ -1,28 +1,28 @@
-# Streamlit Deploy Skill
+# Streamlitデプロイスキル
 
 **Name:** streamlit-deploy
 **Version:** 1.0.0
-**Description:** Deploy Streamlit applications to Snowflake. Validates configuration files (snowflake.yml, environment.yml), checks for common deployment errors, and executes deployment using snow CLI. Use when deploying, updating, or troubleshooting Streamlit apps on Snowflake.
+**Description:** StreamlitアプリケーションをSnowflakeにデプロイします。設定ファイル（snowflake.yml、environment.yml）の検証、一般的なデプロイエラーのチェック、snow CLIを使用したデプロイの実行。Snowflake上のStreamlitアプリのデプロイ、更新、トラブルシューティングに使用します。
 
-## When to Use
+## いつ使うか
 
-- User wants to deploy a Streamlit app to Snowflake
-- User needs to update an existing Streamlit app
-- User encounters deployment errors
-- User wants to validate configuration before deployment
-- User asks about Streamlit deployment commands or configuration
+- ユーザーがStreamlitアプリをSnowflakeにデプロイしたい
+- 既存のStreamlitアプリを更新する必要がある
+- デプロイエラーが発生している
+- デプロイ前に設定を検証したい
+- Streamlitデプロイコマンドや設定について質問がある
 
-## Prerequisites
+## 前提条件
 
-- `snow` CLI installed and configured
-- Snowflake connection set up
-- Valid snowflake.yml and environment.yml in project directory
+- `snow` CLIがインストールされ、設定されている
+- Snowflake接続が設定されている
+- プロジェクトディレクトリに有効な snowflake.yml と environment.yml がある
 
-## Workflow
+## ワークフロー
 
-### 1. Validate Configuration Files
+### 1. 設定ファイルの検証
 
-Check snowflake.yml:
+snowflake.yml を確認：
 ```yaml
 definition_version: 1
 streamlit:
@@ -33,12 +33,12 @@ streamlit:
   title: "App Title"
 ```
 
-Important:
-- DO NOT include `pages_dir` parameter
-- Use valid warehouse name
-- Ensure main_file path is correct
+重要事項：
+- `pages_dir` パラメータは含めないこと
+- 有効なウェアハウス名を使用すること
+- main_file のパスが正しいことを確認すること
 
-Check environment.yml:
+environment.yml を確認：
 ```yaml
 name: app_environment
 channels:
@@ -50,71 +50,71 @@ dependencies:
   - pandas=
 ```
 
-Important:
-- Python version MUST use `.*` wildcard: `python=3.11.*`
-- Package names MUST end with `=`: `pandas=` not `pandas`
-- Only use packages available in Snowflake conda channel
+重要事項：
+- Pythonバージョンは `.*` ワイルドカードを使用すること：`python=3.11.*`
+- パッケージ名は `=` で終わること：`pandas=` であって `pandas` ではない
+- Snowflake conda チャネルで利用可能なパッケージのみを使用すること
 
-### 2. Pre-Deployment Checks
+### 2. デプロイ前チェック
 
 ```bash
-# Check current connection
+# 現在の接続を確認
 snow connection list
 
-# List existing Streamlit apps
+# 既存のStreamlitアプリをリスト
 snow streamlit list
 
-# Check snow CLI version
+# snow CLIのバージョンを確認
 snow --version
 ```
 
-### 3. Deploy Command
+### 3. デプロイコマンド
 
 ```bash
 cd /path/to/project
 snow streamlit deploy --connection CONNECTION_NAME --replace
 ```
 
-Use `--replace` flag to update existing apps.
+既存のアプリを更新するには `--replace` フラグを使用します。
 
-### 4. Post-Deployment
+### 4. デプロイ後
 
 ```bash
-# Get app URL
+# アプリURLを取得
 snow streamlit get-url APP_NAME
 
-# Check deployment status in Snowflake UI
+# Snowflake UIでデプロイステータスを確認
 ```
 
-## Common Errors and Fixes
+## よくあるエラーと修正方法
 
-### Python Version Error
+### Pythonバージョンエラー
 ```
 Error: Packages not found: python==3.11
 ```
-Fix: Change to `python=3.11.*` in environment.yml
+修正：environment.yml で `python=3.11.*` に変更
 
-### Package Not Found Error
+### パッケージが見つからないエラー
 ```
 Error: Packages not found: pandas
 ```
-Fix: Add trailing `=` to package name: `pandas=`
+修正：パッケージ名の末尾に `=` を追加：`pandas=`
 
-### pages_dir Error
+### pages_dir エラー
 ```
 Error: Provided file null does not exist
 ```
-Fix: Remove `pages_dir: null` from snowflake.yml
+修正：snowflake.yml から `pages_dir: null` を削除
 
-### Connection Error
+### 接続エラー
 ```
 Error: Connection 'name' does not exist
 ```
-Fix: Verify connection with `snow connection list`
+修正：`snow connection list` で接続を確認
 
-## Streamlit Code Patterns
+## Streamlitコードパターン
 
-### Basic Setup
+### 基本セットアップ
 ```python
 import streamlit as st
 from snowflake.snowpark.context import get_active_session
@@ -122,31 +122,31 @@ from snowflake.snowpark.context import get_active_session
 session = get_active_session()
 ```
 
-### Read from Table
+### テーブルからの読み取り
 ```python
 df = session.table("SCHEMA.TABLE_NAME").to_pandas()
 ```
 
-### Editable Table
+### 編集可能なテーブル
 ```python
 edited_df = st.data_editor(df, num_rows="dynamic")
 ```
 
-### Save to Table
+### テーブルへの保存
 ```python
 if st.button("保存"):
     session.create_dataframe(edited_df).write.mode("overwrite").save_as_table("TABLE_NAME")
 ```
 
-### Execute Query
+### クエリの実行
 ```python
 result = session.sql("SELECT * FROM TABLE").to_pandas()
 ```
 
-## Notes
+## 注意事項
 
-- Always validate configuration files before deployment
-- Test locally when possible before deploying to Snowflake
-- Use `--replace` flag for updates to existing apps
-- Check Snowflake UI for detailed deployment logs
-- Streamlit apps on Snowflake use Snowpark session, not traditional database connections
+- デプロイ前に必ず設定ファイルを検証すること
+- 可能であればSnowflakeにデプロイする前にローカルでテストすること
+- 既存アプリの更新には `--replace` フラグを使用すること
+- 詳細なデプロイログはSnowflake UIで確認すること
+- Snowflake上のStreamlitアプリはSnowparkセッションを使用し、従来のデータベース接続は使用しない

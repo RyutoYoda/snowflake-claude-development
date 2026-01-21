@@ -1,189 +1,132 @@
-# Snowflake AI-Driven Development with Claude Code
+# Snowflake Claude開発環境
 
-Production-ready Claude Code Skills for Snowflake development. Accelerate your Snowflake, Streamlit, and data engineering workflows with AI assistance.
+Claude CodeでSnowflake開発を加速するためのプロダクションレディなスキル集です。Snowflake、Streamlit、データエンジニアリングのワークフローをAIアシスタンスで効率化します。
 
-## Overview
+## 概要
 
-This repository contains specialized Skills for Claude Code that enable AI-driven development for Snowflake projects. These Skills provide structured workflows, best practices, and automated patterns for common Snowflake development tasks.
+このリポジトリには、Snowflakeプロジェクト向けのAI駆動開発を可能にする、Claude Code専用のスキルが含まれています。これらのスキルは、よくあるSnowflake開発タスクの構造化されたワークフロー、ベストプラクティス、自動化パターンを提供します。
 
-## What's Included
+## 含まれるもの
 
-### Skills (`.claude/skills/`)
+### スキル（`.claude/skills/`）
 
-- **snowflake-mcp** - Direct Snowflake database operations via MCP
-- **streamlit-deploy** - Streamlit app deployment and configuration
-- **notebook-ops** - Jupyter notebook patterns for data analysis
+- **snowflake-operations** - snow CLIを使用したSnowflakeデータベース操作
+- **streamlit-deploy** - Streamlitアプリのデプロイと設定
+- **notebook-ops** - データ分析用Jupyterノートブックパターン
 
-### Documentation
+## クイックスタート
 
-- **HOW_TO_CREATE_SKILLS.md** - Comprehensive guide to creating custom Skills for any tech stack
-
-## Quick Start
-
-### 1. Install Claude Code
+### 1. Claude Codeのインストール
 
 ```bash
-# Install Claude Code CLI
+# Claude Code CLIをインストール
 npm install -g @anthropic/claude-code
 
-# Or visit https://claude.ai/download
+# またはhttps://claude.ai/downloadを参照
 ```
 
-### 2. Copy Skills to Your Project
+### 2. プロジェクトにスキルをコピー
 
-**Option A: Project-specific (Recommended)**
+**オプションA: プロジェクト固有（推奨）**
 
 ```bash
-# Copy to your Snowflake project
+# Snowflakeプロジェクトにコピー
 cp -r .claude your-snowflake-project/
 ```
 
-**Option B: Global (All projects)**
+**オプションB: グローバル（全プロジェクト）**
 
 ```bash
-# Copy to home directory
+# ホームディレクトリにコピー
 cp -r .claude ~/.claude/
 ```
 
-### 3. Configure Snowflake MCP (Required)
-
-The Snowflake MCP Skill requires a configured MCP server. See [MCP Setup](#mcp-setup) below.
-
-### 4. Start Using Claude Code
+### 3. Claude Codeの使用を開始
 
 ```bash
 cd your-snowflake-project
 claude
 
-# Try asking:
-# - "Deploy my Streamlit app"
-# - "Query the user table in Snowflake"
-# - "Create a view-based architecture for my tables"
+# 以下のように質問してみてください：
+# - "Streamlitアプリをデプロイして"
+# - "ユーザーテーブルをクエリして"
+# - "テーブル用のビューベースアーキテクチャを作成して"
 ```
 
-## Skills Documentation
+## スキルドキュメント
 
-### Snowflake MCP Skill
+### Snowflakeオペレーションスキル
 
-Execute Snowflake operations directly using Model Context Protocol.
+snow CLIを使用してSnowflake操作を直接実行します。
 
-**Use when:**
-- Running SQL queries
-- Creating/modifying tables and views
-- Loading data
-- Inspecting database schema
+**使用場面：**
+- SQLクエリの実行
+- テーブル/ビューの作成・変更
+- データのロード
+- データベーススキーマの検査
 
-**Key Features:**
-- Test Snowflake connections
-- Execute any SQL operation
-- View-based architecture patterns
-- Proper NULL handling and date formatting
-- SQL injection prevention
+**主な機能：**
+- Snowflake接続のテスト
+- あらゆるSQL操作の実行
+- ビューベースアーキテクチャパターン
+- 適切なNULL処理と日付フォーマット
+- SQLインジェクション防止
 
-**Example:**
+**例：**
 ```
-User: "Create a new table called USERS with ID and EMAIL columns"
-Claude: Uses Snowflake MCP Skill to create the table with proper SQL
-```
-
-### Streamlit Deploy Skill
-
-Deploy and manage Streamlit applications on Snowflake.
-
-**Use when:**
-- Deploying new Streamlit apps
-- Updating existing apps
-- Troubleshooting deployment errors
-- Validating configuration files
-
-**Key Features:**
-- Validates `snowflake.yml` and `environment.yml`
-- Handles common deployment errors
-- Provides deployment best practices
-- Post-deployment verification
-
-**Common Issues Solved:**
-- Python version wildcards (`python=3.11.*`)
-- Package trailing equals (`pandas=`)
-- `pages_dir` configuration errors
-
-### Notebook Operations Skill
-
-Jupyter notebook patterns for Snowflake data analysis.
-
-**Use when:**
-- Analyzing Snowflake data
-- Creating data visualizations
-- Performing exploratory data analysis
-- Writing results back to Snowflake
-
-**Key Features:**
-- Snowpark connection patterns
-- Data querying and transformation
-- Pandas integration
-- Visualization examples
-
-## MCP Setup
-
-### Snowflake MCP Server
-
-The Snowflake MCP Skill requires the `snowflake-simple` MCP server.
-
-#### Configuration
-
-Add to your `~/.claude.json` (or project `.claude/settings.json`):
-
-```json
-{
-  "mcpServers": {
-    "snowflake-simple": {
-      "type": "stdio",
-      "command": "path/to/snowflake-mcp-server",
-      "env": {
-        "SNOWFLAKE_ACCOUNT": "your-account",
-        "SNOWFLAKE_USER": "your-username",
-        "SNOWFLAKE_PASSWORD": "your-password",
-        "SNOWFLAKE_WAREHOUSE": "your-warehouse",
-        "SNOWFLAKE_DATABASE": "your-database",
-        "SNOWFLAKE_SCHEMA": "your-schema"
-      }
-    }
-  }
-}
+ユーザー: "IDとEMAILカラムを持つUSERSという新しいテーブルを作成して"
+Claude: Snowflakeオペレーションスキルを使用して適切なSQLでテーブルを作成
 ```
 
-#### Using Docker
+### Streamlitデプロイスキル
 
-```bash
-claude mcp add snowflake-simple -s project -- docker run -i --rm your-snowflake-mcp-image
-```
+Snowflake上でStreamlitアプリをデプロイ・管理します。
 
-#### Environment Variables
+**使用場面：**
+- 新規Streamlitアプリのデプロイ
+- 既存アプリの更新
+- デプロイエラーのトラブルシューティング
+- 設定ファイルの検証
 
-Alternatively, set environment variables:
+**主な機能：**
+- `snowflake.yml` と `environment.yml` の検証
+- 一般的なデプロイエラーの処理
+- デプロイのベストプラクティス提供
+- デプロイ後の検証
 
-```bash
-export SNOWFLAKE_ACCOUNT=your-account
-export SNOWFLAKE_USER=your-username
-export SNOWFLAKE_PASSWORD=your-password
-export SNOWFLAKE_WAREHOUSE=your-warehouse
-export SNOWFLAKE_DATABASE=your-database
-export SNOWFLAKE_SCHEMA=your-schema
-```
+**よくある問題の解決：**
+- Pythonバージョンのワイルドカード（`python=3.11.*`）
+- パッケージの末尾イコール（`pandas=`）
+- `pages_dir`設定エラー
 
-## Project Structure
+### Notebookオペレーションスキル
+
+Snowflakeデータ分析用のJupyterノートブックパターン。
+
+**使用場面：**
+- Snowflakeデータの分析
+- データ可視化の作成
+- 探索的データ分析の実行
+- 結果のSnowflakeへの書き戻し
+
+**主な機能：**
+- Snowpark接続パターン
+- データクエリと変換
+- pandas統合
+- 可視化例
+
+## プロジェクト構造
 
 ```
 your-snowflake-project/
 ├── .claude/
-│   ├── skills/
-│   │   ├── snowflake-mcp/
-│   │   │   └── SKILL.md
-│   │   ├── streamlit-deploy/
-│   │   │   └── SKILL.md
-│   │   └── notebook-ops/
-│   │       └── SKILL.md
-│   └── settings.json (optional - for project-specific MCP config)
+│   └── skills/
+│       ├── snowflake-operations/
+│       │   └── SKILL.md
+│       ├── streamlit-deploy/
+│       │   └── SKILL.md
+│       └── notebook-ops/
+│           └── SKILL.md
 ├── Streamlit/
 │   └── your-app/
 │       ├── streamlit_app.py
@@ -194,203 +137,183 @@ your-snowflake-project/
 └── README.md
 ```
 
-## Best Practices
+## ベストプラクティス
 
-### Database Operations
+### データベース操作
 
-1. **Use Qualified Names**
+1. **完全修飾名を使用**
    ```sql
-   -- Good
+   -- 良い
    SELECT * FROM DATABASE.SCHEMA.TABLE
 
-   -- Avoid
+   -- 避ける
    SELECT * FROM TABLE
    ```
 
-2. **View-Based Architecture**
+2. **ビューベースアーキテクチャ**
    ```sql
-   -- Base table with metadata
+   -- メタデータ付きベーステーブル
    CREATE TABLE SCHEMA.DATA_BASE (
      ID VARCHAR(50),
      NAME VARCHAR(100),
      CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
    );
 
-   -- Application view (clean interface)
+   -- アプリケーションビュー（クリーンインターフェース）
    CREATE VIEW SCHEMA.DATA AS
    SELECT ID, NAME FROM SCHEMA.DATA_BASE;
    ```
 
-3. **Escape String Values**
+3. **文字列値のエスケープ**
    ```python
-   # Always escape single quotes
+   # 常にシングルクォートをエスケープ
    safe_value = user_input.replace("'", "''")
    query = f"INSERT INTO TABLE (COL) VALUES ('{safe_value}')"
    ```
 
-### Streamlit Deployment
+### Streamlitデプロイ
 
-1. **Python Version**
+1. **Pythonバージョン**
    ```yaml
-   # Always use wildcard
+   # 常にワイルドカードを使用
    dependencies:
      - python=3.11.*
    ```
 
-2. **Package Format**
+2. **パッケージ形式**
    ```yaml
-   # Always end with =
+   # 常に=で終わる
    dependencies:
      - pandas=
      - streamlit=
    ```
 
-3. **Avoid Common Errors**
-   - Remove `pages_dir: null` from `snowflake.yml`
-   - Use only Snowflake conda channel packages
-   - Test locally before deploying
+3. **よくあるエラーを避ける**
+   - `snowflake.yml` から `pages_dir: null` を削除
+   - Snowflake conda チャネルのパッケージのみを使用
+   - デプロイ前にローカルでテスト
 
-## Examples
+## 使用例
 
-### Example 1: Create and Query Table
+### 例1: テーブルの作成とクエリ
 
 ```
-User: Create a table called CUSTOMERS with ID, NAME, and EMAIL columns,
-      then insert 3 sample records and query them.
+ユーザー: ID、NAME、EMAILカラムを持つCUSTOMERSテーブルを作成して、
+         3つのサンプルレコードを挿入してクエリして。
 
 Claude:
-1. Uses Snowflake MCP to create table
-2. Inserts sample data
-3. Queries and displays results
+1. Snowflake操作でテーブルを作成
+2. サンプルデータを挿入
+3. クエリして結果を表示
 ```
 
-### Example 2: Deploy Streamlit App
+### 例2: Streamlitアプリのデプロイ
 
 ```
-User: Deploy my Streamlit app to Snowflake
+ユーザー: StreamlitアプリをSnowflakeにデプロイして
 
 Claude:
-1. Validates snowflake.yml and environment.yml
-2. Checks for common configuration errors
-3. Executes deployment with snow CLI
-4. Provides app URL
+1. snowflake.yml と environment.yml を検証
+2. よくある設定エラーをチェック
+3. snow CLIでデプロイを実行
+4. アプリURLを提供
 ```
 
-### Example 3: Data Analysis
+### 例3: データ分析
 
 ```
-User: Analyze the sales data from the last 30 days and create a visualization
+ユーザー: 過去30日間の売上データを分析して可視化して
 
 Claude:
-1. Queries Snowflake for sales data
-2. Performs aggregation and analysis
-3. Creates visualization with pandas/matplotlib
-4. Optionally saves results back to Snowflake
+1. Snowflakeから売上データをクエリ
+2. 集計と分析を実行
+3. pandas/matplotlibで可視化を作成
+4. オプションで結果をSnowflakeに保存
 ```
 
-## Customization
+## カスタマイズ
 
-### Adding Your Own Skills
+### 独自のスキルを追加
 
-1. Create a new directory in `.claude/skills/`
-2. Add a `SKILL.md` file with your workflow
-3. Follow the format in existing Skills
+1. `.claude/skills/` に新しいディレクトリを作成
+2. ワークフローを記述した `SKILL.md` ファイルを追加
+3. 既存スキルのフォーマットに従う
 
-See [HOW_TO_CREATE_SKILLS.md](./HOW_TO_CREATE_SKILLS.md) for detailed instructions.
+### プロジェクト固有の設定
 
-### Project-Specific Configuration
-
-Create `.claude/CLAUDE.md` in your project:
+プロジェクトに `.claude/CLAUDE.md` を作成：
 
 ```markdown
-# Your Project Name
+# プロジェクト名
 
-Project description and context for Claude
+プロジェクトの説明とClaude向けのコンテキスト
 
-## Database Information
+## データベース情報
 
-- Database: YOUR_DATABASE
-- Schema: YOUR_SCHEMA
-- Key Tables: LIST_YOUR_TABLES
+- データベース: YOUR_DATABASE
+- スキーマ: YOUR_SCHEMA
+- 主要テーブル: LIST_YOUR_TABLES
 
-## Project-Specific Rules
+## プロジェクト固有のルール
 
-- Use specific naming conventions
-- Follow company security policies
-- etc.
+- 特定の命名規則を使用
+- 会社のセキュリティポリシーに従う
+- など
 ```
 
-## Performance Tips
+## トラブルシューティング
 
-### Context Window Management
-
-- Enable only necessary MCP servers (10 or fewer per project)
-- Too many MCPs shrink context from 200k to ~70k tokens
-- Use project-specific MCP configuration
-
-### Recommended MCP Setup
-
-**Snowflake Projects:**
-- snowflake-simple (required)
-- dbt (if using dbt)
-- github (optional, for git operations)
-
-**Avoid:**
-- Disable unused MCP servers
-- Remove irrelevant Skills from large projects
-
-## Troubleshooting
-
-### Snowflake MCP Connection Issues
+### Snowflake接続の問題
 
 ```bash
-# Test connection
-mcp__snowflake-simple__test_connection()
+# 接続をテスト
+snow connection test --connection my_connection
 
-# Check environment variables
-echo $SNOWFLAKE_ACCOUNT
-echo $SNOWFLAKE_USER
+# 接続をリスト
+snow connection list
+
+# 接続を追加
+snow connection add
 ```
 
-### Streamlit Deployment Errors
+### Streamlitデプロイエラー
 
-Common fixes:
-1. Python version: Change to `python=3.11.*`
-2. Packages: Add trailing `=` (e.g., `pandas=`)
-3. Remove `pages_dir` from snowflake.yml
-4. Verify connection: `snow connection list`
+よくある修正：
+1. Pythonバージョン: `python=3.11.*` に変更
+2. パッケージ: 末尾に `=` を追加（例：`pandas=`）
+3. `snowflake.yml` から `pages_dir` を削除
+4. 接続を確認：`snow connection list`
 
-### Claude Not Using Skills
+### Claudeがスキルを使用しない
 
-1. Verify Skills are in `.claude/skills/` directory
-2. Check file name is `SKILL.md`
-3. Restart Claude Code
-4. Try explicitly mentioning the task (e.g., "Deploy Streamlit app")
+1. スキルが `.claude/skills/` ディレクトリにあることを確認
+2. ファイル名が `SKILL.md` であることを確認
+3. Claude Codeを再起動
+4. タスクを明示的に言及してみる（例：「Streamlitアプリをデプロイ」）
 
-## Contributing
+## 貢献
 
-Contributions welcome! Please:
+貢献を歓迎します！以下をお願いします：
 
-1. Follow existing Skill format
-2. Test Skills before submitting
-3. Remove any company-specific or sensitive information
-4. Update README with new Skills
+1. 既存のスキル形式に従う
+2. 提出前にスキルをテスト
+3. 会社固有または機密情報を削除
+4. 新しいスキルでREADMEを更新
 
-## Resources
+## リソース
 
-- [Claude Code Documentation](https://docs.anthropic.com/claude/docs/claude-code)
-- [Snowflake CLI Documentation](https://docs.snowflake.com/en/developer-guide/snowflake-cli-v2/index)
+- [Claude Codeドキュメント](https://docs.anthropic.com/claude/docs/claude-code)
+- [Snowflake CLIドキュメント](https://docs.snowflake.com/en/developer-guide/snowflake-cli-v2/index)
 - [Streamlit on Snowflake](https://docs.snowflake.com/en/developer-guide/streamlit/about-streamlit)
-- [MCP Protocol](https://modelcontextprotocol.io/)
 
-## License
+## ライセンス
 
-MIT License - Feel free to use and modify for your projects.
+MIT License - プロジェクトで自由に使用・変更してください。
 
-## Acknowledgments
+## 謝辞
 
-Inspired by [everything-claude-code](https://github.com/affaan-m/everything-claude-code) - Anthropic Hackathon Winner
+[everything-claude-code](https://github.com/affaan-m/everything-claude-code) - Anthropic Hackathon優勝作品 にインスパイアされました
 
 ---
 
-**Happy AI-driven Snowflake development!**
+**Happy Snowflake AI開発！**
