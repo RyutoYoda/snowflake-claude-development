@@ -6,13 +6,29 @@ Claude CodeでSnowflake開発を加速するスキル集。Snowflake CLI操作�
 
 このリポジトリのスキルを使うと、Claude Codeが自動的にSnowflake開発のベストプラクティスを適用します。「UDFを作って」「タスクをスケジュールして」「Slackに通知して」と話しかけるだけで、適切なコマンドと設定を提案します。
 
-## 含まれるスキル
+## 構成
 
-- **snowflake-udf** - Python UDFの作成・デプロイ（`snow snowpark`）
-- **snowflake-task** - タスクスケジューリング・DAG・Slack通知
-- **snowflake-cli-operations** - データベース操作・SQL実行
-- **streamlit-deploy** - Streamlitアプリのデプロイ
-- **notebook-ops** - Jupyterノートブックパターン
+### Skills
+- **snowflake-udf** - UDF作成
+- **snowflake-task** - タスクスケジューリング
+- **snowflake-cli-operations** - SQL実行
+- **streamlit-deploy** - Streamlitデプロイ
+- **notebook-ops** - データ分析
+
+### Commands
+- **/deploy** - Streamlitデプロイガードレール
+- **/prod-check** - 本番操作確認
+
+### Agents
+- **dbt Reviewer** - dbtモデル・テストレビュー
+- **Security Reviewer** - セキュリティレビュー
+
+### Rules
+- **snowflake-best-practices** - 命名、セキュリティ、パフォーマンス
+- **deployment** - デプロイルール
+
+### Hooks
+- **hooks.json** - イベント自動化
 
 ## クイックスタート
 
@@ -76,11 +92,11 @@ Claude: Webhook設定・Integration作成・通知ストアドプロシージャ
 ## スキルドキュメント
 
 詳細は各スキルの`SKILL.md`を参照：
-- [snowflake-udf](.claude/skills/snowflake-udf/SKILL.md)
-- [snowflake-task](.claude/skills/snowflake-task/SKILL.md)
-- [snowflake-cli-operations](.claude/skills/snowflake-cli-operations/SKILL.md)
-- [streamlit-deploy](.claude/skills/streamlit-deploy/SKILL.md)
-- [notebook-ops](.claude/skills/notebook-ops/SKILL.md)
+- [snowflake-udf](skills/snowflake-udf/SKILL.md)
+- [snowflake-task](skills/snowflake-task/SKILL.md)
+- [snowflake-cli-operations](skills/snowflake-cli-operations/SKILL.md)
+- [streamlit-deploy](skills/streamlit-deploy/SKILL.md)
+- [notebook-ops](skills/notebook-ops/SKILL.md)
 
 ## プロジェクト構造
 

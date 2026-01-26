@@ -39,34 +39,25 @@ snow connection test --connection your_connection_name
 
 ## Development Workflow
 
-### Starting a New Project
+### Data Transformation
+Use dbt for data modeling and transformation. Snowflake is for application layer only.
 
-When developing a new resource (Streamlit app, analysis, etc.):
+### Application Development
 
-1. **Create a resource folder** at the root level:
-   ```bash
-   mkdir my-resource-name
-   cd my-resource-name
-   ```
+1. **Streamlit apps** - UI/BI applications
+2. **Python UDFs** - Business logic in Python
+3. **Tasks** - Scheduled automation
+4. **Analysis** - Ad-hoc notebooks
 
-2. **Work within that folder**:
-   - All code, SQL files, and configurations go here
-   - Keep resources isolated and organized
-   - Use descriptive folder names (e.g., `meeting-room-app`, `sales-analysis`)
-
-3. **Example structure**:
-   ```
-   snowflake-claude-development/
-   ├── .claude/skills/          # Claude Code skills (don't modify)
-   ├── my-streamlit-app/        # Your Streamlit project
-   │   ├── streamlit_app.py
-   │   ├── snowflake.yml
-   │   └── environment.yml
-   ├── sales-analysis/          # Your analysis project
-   │   ├── queries.sql
-   │   └── notebook.ipynb
-   └── CLAUDE.md                # This file
-   ```
+### Project Structure
+```
+snowflake-claude-development/
+├── skills/      # Claude workflows
+├── commands/    # Safety guardrails
+├── agents/      # Specialized reviewers
+├── rules/       # Best practices
+└── hooks/       # Automations
+```
 
 ## Available Skills
 
@@ -105,6 +96,6 @@ Jupyter notebook patterns for data analysis with Snowpark.
 ## Getting Help
 
 For detailed documentation on each skill, see:
-- `.claude/skills/streamlit-deploy/SKILL.md`
-- `.claude/skills/snowflake-cli-operations/SKILL.md`
-- `.claude/skills/notebook-ops/SKILL.md`
+- `skills/streamlit-deploy/SKILL.md`
+- `skills/snowflake-cli-operations/SKILL.md`
+- `skills/notebook-ops/SKILL.md`
