@@ -20,8 +20,7 @@ Claude CodeでSnowflake開発を加速するスキル集。Snowflake CLI操作�
 - **/prod-check** - 本番操作確認
 
 ### Agents
-- **dbt Reviewer** - dbtモデル・テストレビュー
-- **Security Reviewer** - セキュリティレビュー
+- **Security Reviewer** - セキュリティレビュー（SQLインジェクション、権限過多、PII露出）
 
 ### Rules
 - **snowflake-best-practices** - 命名、セキュリティ、パフォーマンス

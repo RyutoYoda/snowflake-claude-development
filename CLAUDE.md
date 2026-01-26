@@ -39,9 +39,6 @@ snow connection test --connection your_connection_name
 
 ## Development Workflow
 
-### Data Transformation
-Use dbt for data modeling and transformation. Snowflake is for application layer only.
-
 ### Application Development
 
 1. **Streamlit apps** - UI/BI applications
